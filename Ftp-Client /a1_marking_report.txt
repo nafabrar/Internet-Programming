@@ -1,0 +1,164 @@
+Total before late penalty: [64/66]
+
+NOTE: in the marking report something left blank (e.g.  [ /6]) typically means
+that you got full marks for that item. 
+Bonus  [/3]
+
+CLIENT - FUNCTIONALITY: [39/41]
+
+Working makefile produces the CSftp.jar file 		[/2]
+  
+Command Argument processing                             [/4]
+    - Accepts server names in both IP and 
+       domain name format
+    - Processes port number and uses it
+    - Reports usage error if too many or too few arguments
+    - If control connection fails to open reports error 0xFFFC
+
+features                                           [/2]
+     - reports error 002 if any arguments
+     - sends the FEAT command (assuming the control connection is open)
+     - prints the response(s) and reprompts when all of the
+       response has been printed
+
+user command                                           [/3]
+     - reports error 002 if too many or too few parameters
+     - Sends USER command to server
+     - Processes response 
+
+pw command                                             [/3]
+     - reports error 002 if too many or too few parameters
+     - Sends PASS command to server
+     - Processes response 
+
+quit command                                          [/2]
+     - Sends QUIT on the control connection.
+     - Exits, ideally closing connections first
+
+cd command                                            [/3]
+     - reports error 0x002 if too many or too few parameters
+     - sends CWD command 
+     - processes the response
+
+get command                                           [8/9]
+    - command rejected with 0x002 error if improper number of arguments
+    - Sends PASV and opens connection specified in response
+    - System designed to enusre server is in binary mode
+    - Can handle error response or connection failure
+    - Sends RETR and can deal with 
+      - failure on remote side
+      	(should close the data connection)
+      - local file open failure
+      - unexpected closure of data channel
+    - actual transfer of file data
+    - binary files are properly transferred
+
+dir command                                           [/5]
+    - Sends PASV and opens connection specified in response
+    - Can handle error response or connection failure
+    - Sends LIST and can deal with  (2)
+      - failure on remote side
+      	(should close the data connection)
+      - unexpected closure of data channel
+    - actual transfer of directory listing is correct
+
+Format of output conforms to that specified in assignment    [3/4]
+   - in particular lines are identified with --> and <--
+   - Only data from the control connection prints the <--, printed
+     data on the data connection does not contain <-- 
+   - the contents of the data connection are only printed for the dir 
+     command, get and put do not print what is sent or 
+     received on the data connection. 
+
+Error processing                                        [/2]
+   - handles unexpected closure of control connection
+   - handles unexpected EOF when reading command lines
+
+
+Parameters: properly handles multiple spaces or tabs    [/2]
+
+---------------------------------------
+Interaction with other FTP servers: [14/16]
+
+
+Interaction with ftp.dell.com                [7/8]
+
+      - login/password                 [ /2] 
+      - cd into directory fixes        [ /1] 
+      - retrieve file viewmtr.exe      [1 /2]
+        (note assignment requires all file
+         transfers to be in binary mode) 
+  The sha256 value is: 9e0ebe14d9710625f503681872b719bbcd9a7cf075779da5eaa03f6c6d3ae9bd
+      - dir                            [/1]
+       
+      - cd .. followed by dir           [ /1] 
+      - quit                            [ /1]
+
+
+Interaction with ftp.cisco.com              [7/8]
+    - anonymous login/password      [ /2]
+    - dir                           [ /1]
+    - cd into pub/mibs/traps        [ /1]
+    - get traps.tar.gz              [1 /2]
+      sha256  value is 6a88876bf625fec5ec2e2d0b1d0aadd1249e95e3317cb4521ea31e8aae757fd4 *traps.tar.gz
+    - wait 60 seconds and quit      [ /2]
+
+---------------------
+Broad Marking Criteria :                     [8/9] 
+See the assignment section on edX for a description of the broad marking 
+criteria and what we were looking for. Note: this criteria was made available
+at the same time as the assignment description. 
+
+     Readability        [/3]
+     Code Documentation [2/3]
+     Code Quality       [/3]
+
+
+   
+
+MARKER'S ADDITIONAL COMMENTS:
+Your program does not enter binary mode for the dir command, also you write out unnecessary output such as "Password: "
+which does not comply with the assignment specifications. (You broke my script!:( )
+The files retrieved from the servers do not result in the correct hash although you enter binary mode. It seems that you did
+not factor in the correct file length while reading the stream. 
+Your code could have benefited from a bit more documentation and a smaller main method.
+Otherwise, well done.
+
+----------- Non Functional Criteria
+
+Readability
+
+       3 marks - Code is "clean", understandable and well organized,
+        with no issues.  
+       2 marks - There may be minor issues with
+        consistency of identation and use of white space. variable
+        naming or general organization. Although annoying, this does
+        not have a major impact on readability.  
+       1 mark - There are major issues with indentation, whitespece,
+        variable naming 0 marks - There are major problems across
+        multiple categories with respect to readability  
+
+Documenting your code
+
+     3 marks  - Code is well and completely commented    
+
+     2 marks - One or two places could benefit from some additional
+               comments to add clarity to what is being done.
+     
+     1 mark - Multiple locations where sections of code are
+              uncommented or comments aren't helpful 
+
+      0 marks - Few or no helpful comments
+
+Code Quality
+
+     3 marks  - Uniformly good choices of algorithms and data
+                structures across all aspects of the solution
+
+     2 marks - Good choice of algorithms or data structures except
+               for 1 or 2 situations where some improvement is possible
+
+     1 mark - Poor algorithms or data structure choice in multiple
+              situations and major improvement is possible.
+
+     0 marks - Consistently poor algorithm and data structure choices.
